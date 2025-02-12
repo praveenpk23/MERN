@@ -12,26 +12,26 @@ const helmet = require('helmet');
 // app.use(cors(corsOptions));     
 
 
-const allowedOrigin = 'https://majestic-tartufo-94d666.netlify.app';
+// const allowedOrigin = 'https://majestic-tartufo-94d666.netlify.app';
 
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
+// app.use((req, res, next) => {
+//     const origin = req.headers.origin;
 
-    if (origin === allowedOrigin) {
-        res.setHeader('Access-Control-Allow-Origin', allowedOrigin); // Allow only Netlify
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
+//     if (origin === allowedOrigin) {
+//         res.setHeader('Access-Control-Allow-Origin', allowedOrigin); // Allow only Netlify
+//         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+//         res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//         res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-        if (req.method === 'OPTIONS') {
-            return res.sendStatus(204); // Preflight request success
-        }
-    } else {
-        return res.status(403).json({ error: "CORS Error: Access denied" });
-    }
+//         if (req.method === 'OPTIONS') {
+//             return res.sendStatus(204); // Preflight request success
+//         }
+//     } else {
+//         return res.status(403).json({ error: "CORS Error: Access denied" });
+//     }
 
-    next();
-});
+//     next();
+// });
 
 
 
