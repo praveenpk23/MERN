@@ -12,21 +12,27 @@ const helmet = require('helmet');
 // app.use(cors(corsOptions));     
 
 
-const allowedOrigins = ['https://majestic-tartufo-94d666.netlify.app']; // Only allow this origin
+const allowedOrigin = 'https://majestic-tartufo-94d666.netlify.app';
 
-// Custom CORS middleware
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+
+    if (origin === allowedOrigin) {
+        res.setHeader('Access-Control-Allow-Origin', allowedOrigin); // Allow only Netlify
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
         res.setHeader('Access-Control-Allow-Credentials', 'true');
-        next();
+
+        if (req.method === 'OPTIONS') {
+            return res.sendStatus(204); // Preflight request success
+        }
     } else {
-        res.status(403).json({ error: "CORS Error: Access denied" }); // Custom error response
+        return res.status(403).json({ error: "CORS Error: Access denied" });
     }
+
+    next();
 });
+
 
 
 app.use(helmet());
