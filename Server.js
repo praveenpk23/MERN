@@ -2,14 +2,33 @@ const express = require('express')
 const app = express();
 const PORT = 2000;
 const helmet = require('helmet');
-const cors = require('cors');
-const corsOptions = {
-    origin: 'http://localhost:3000', // Only this domain can access the API
-    methods: ['GET', 'POST'], // Only allow GET and POST requests
-    allowedHeaders: ['Content-Type','Authorization'], // Only allow Content-Type header
-    Credential: true // Allow cookie to be sent
-};
-app.use(cors(corsOptions));     
+// const cors = require('cors');
+// const corsOptions = {
+//     origin: 'https://mern-pk.onrender.com/', // Only this domain can access the API
+//     methods: ['GET', 'POST'], // Only allow GET and POST requests
+//     allowedHeaders: ['Content-Type','Authorization'], // Only allow Content-Type header
+//     Credential: true // Allow cookie to be sent
+// };
+// app.use(cors(corsOptions));     
+
+
+const allowedOrigins = ['https://majestic-tartufo-94d666.netlify.app']; // Only allow this origin
+
+// Custom CORS middleware
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        next();
+    } else {
+        res.status(403).json({ error: "CORS Error: Access denied" }); // Custom error response
+    }
+});
+
+
 app.use(helmet());
 app.use(express.json());
 
