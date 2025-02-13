@@ -66,7 +66,6 @@
 //     console.log( `Server running on ${PORT}`)
 // })
 
-
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -77,7 +76,14 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000', // Allow requests from your React frontend
+    methods: ['GET', 'POST'], // Allow GET and POST requests
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow Content-Type and Authorization headers
+    credentials: true // Allow cookies to be sent
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Connect to Database
